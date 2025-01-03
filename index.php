@@ -1,5 +1,5 @@
 <?php
-include "koneksi.php";  
+include "koneksi.php"; 
 ?>
 
 <!DOCTYPE html>
@@ -7,262 +7,168 @@ include "koneksi.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Daily Journal</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">   
-
-</head> 
-
-<style>
-    
-
-.hero-section {
-    background-color: #BFECFF;
-    padding: 60px 0;
-}
-
-.hero-text h1 {
-    font-size: 3rem;
-    font-weight: bold;
-}
-
-.hero-text p {
-    font-size: 1.5rem;
-    margin-top: 10px;
-}
-
-.hero-img img {
-    max-width: 100%;
-    border-radius: 10px;
-}
-
-/* Ubah warna background navbar */
-.custom-navbar {
-    background-color: #CDC1FF; 
-}
-
-/* Efek hover pada item navbar */
-.navbar-nav .nav-link:hover {
-    background-color: #2d252a; 
-    color: #F6F; 
-}
-
-
-.carousel-inner img {
-    width: 100%; 
-    height: 500px; 
-    object-fit: cover; 
-}
-
-.footer {
-    background-color: #FFCCEA;
-}
-
-body.dark-mode {
-    background-color: #121212;
-    color: #ffffff;
-}
-
-
-.navbar-nav .nav-link.dark-mode {
-    color: #ffffff; /* Warna teks pada navbar saat dark mode */
-}
-
-.custom-navbar .nav-link:hover.dark-mode {
-    background-color: #333333; /* Warna latar belakang saat hover di dark mode */
-}
-
-.artikel.dark-mode {
-    background-color: #1f1f1f;
-    color: #d9cbcb; 
-}
-
-
-.btn-primary {
-    background-color: #007bff;
-}
-
-.btn-primary.dark-mode {
-    background-color: #0056b3;
-}
-
-.footer.dark-mode {
-    background-color: #1f1f1f; 
-    color: #ffffff; 
-}
-</style>
-
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Daily Journal</title>
+    <style>
+        .dark-theme {
+            background-color: #3b3b3b;
+            color: rgb(255, 255, 255);
+        }
+        .dark-theme .card {
+            background-color: #aaeafa;
+        }
+    </style>
+</head>
 <body>
-
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light custom-navbar sticky-top">
-      <div class="container">
-          <a class="navbar-brand" href="#">My Daily Journal</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav ms-auto">
-                  <li class="nav-item">
-                      <a class="nav-link " href="#hero-section">Home</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#artikel">Article</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#Gallery">Gallery</a>
-                  </li>
-                  <li class="nav-item">
-                      <button class="btn btn-secondary" id="toggle-dark-mode">Dark Mode</button>
-                  </li>
-              </ul>
-          </div>
-      </div>
-  </nav>
+    <nav class="navbar navbar-expand-lg sticky-top" style="background-color: rgb(40, 151, 151);">
+        <div class="container">
+            <a class="navbar-brand fw-bold">Daily Journal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="article.html">Article</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                </ul>
+                <div class="d-flex">
+                    <button id="darkMode" class="btn btn-secondary m-2"><i class="bi bi-moon-stars-fill"></i></button>
+                    <button id="lightMode" class="btn btn-info m-2"><i class="bi bi-sun-fill"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!---Navbar end-->
 
     <!-- Hero Section -->
-<!-- Hero Section -->
-<section id="hero-section">
-  <div class="container">
-      <div class="row align-items-center">
-          <div class="col-lg-7 col-md-6 hero-text">
-              <h1>Create Memories, Save Memories, Everyday</h1>
-              <p>Mencatat semua kegiatan sehari-hari yang ada tanpa terkecuali</p>
-              <h6>
-                  <span id="tanggal"></span>
-                  <span id="jam"></span>
-              </h6>
-          </div>
-          <div class="col-lg-5 col-md-6 hero-img p-5">
-              <img src="img/haibara1.jpg" alt="Memory Image" class="img-fluid">
-          </div>
-      </div>
-  </div>
-</section>
-
-    <!-- artikel -->
-<!-- article begin -->
-<section id="article" class="text-center p-5">
-  <div class="container">
-    <h1 class="fw-bold display-4 pb-3">article</h1>
-    <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
-      <?php
-      $sql = "SELECT * FROM articles  ORDER BY tanggal DESC";
-      $hasil = $conn->query($sql); 
-
-      while($row = $hasil->fetch_assoc()){
-      ?>
-        <div class="col">
-          <div class="card h-100">
-            <img src="img/<?= $row["gambar"]?>" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h5 class="card-title"><?= $row["judul"]?></h5>
-              <p class="card-text">
-                <?= $row["isi"]?>
-              </p>
+    <div class="hero py-4">
+        <div class="container d-flex align-items-center">
+            <img src="img/jh78.jpeg" class="img-fluid me-4" width="300" alt="profil">
+            <div>
+                <h1 class="fw-bold">Welcome to my journal</h1>
+                <h4 class="lead">Lihat beberapa journal dan foto</h4>
+                <h6><span id="tanggal"></span> <span id="jam"></span></h6>
             </div>
-            <div class="card-footer">
-              <small class="text-body-secondary">
-                <?= $row["tanggal"]?>
-              </small>
-            </div>
-          </div>
         </div>
-        <?php
-      }
-      ?> 
     </div>
-  </div>
-</section>
-<!-- article end -->
+    <!---Hero end-->
+    
+    <!-- article begin -->
+    <section id="article" class="text-center p-5">
+      <div class="container">
+      <h1 class="fw-bold display-4 pb-3">ARTICLE</h1>
+      <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+        <?php
+        $sql = "SELECT * FROM articles ORDER BY tanggal DESC";
+        $hasil = $conn->query($sql); 
 
-    <section id="Gallery">
-      
-      <div id="carouselExampleCaptions" class="carousel slide">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="img/miwako1.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-  
+        while($row = $hasil->fetch_assoc()){
+        ?>
+          <div class="col">
+            <div class="card h-100">
+              <img src="img/<?= $row["gambar"]?>" class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h5 class="card-title"><?= $row["judul"]?></h5>
+                <p class="card-text">
+                  <?= $row["isi"]?>
+                </p>
+              </div>
+              <div class="card-footer">
+                <small class="text-body-secondary">
+                  <?= $row["tanggal"]?>
+                </small>
+              </div>
             </div>
           </div>
-          <div class="carousel-item">
-            <img src="img/haibara3.jpg" class="d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="img/miwako4.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-              <h5>Third slide label</h5>
-              <p>Some representative placeholder content for the third slide.</p>
-            </div>
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
+          <?php
+        }
+        ?> 
       </div>
-    </section>    
-    
-      <section>
-        <footer class="text-center p-3 row ">
-        <div class="foot">
-          <span>harry lbi @2023</span>
-          <div>
-            <a href="https://wa.me/nomor_telepon_anda" class="text-decoration-none text-dark ms-3">
-                <i class="bi bi-whatsapp"></i>
-            </a>
-            <a href="https://instagram.com/username_anda" class="text-decoration-none text-dark ms-3">
-                <i class="bi bi-instagram"></i>
-            </a>  
-            <a href="https://instagram.com/username_anda" class="text-decoration-none text-dark ms-3">
-                <i class="bi bi-facebook"></i>
-            </a>  
+    </div>
+  </section>
+    <!---Article end-->
+
+    <!--Gallery--->
+    <div class="justify-content-center me-0 mt-0 mb-0 p-0">
+        <section gallery id="carouselExampleIndicators" class="carousel slide">
+          <h5 class=" fw-bold text-center display-4">GALLERY</h5>
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
           </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="img/wn2.jpg" class="custom-carousel-img mx-auto d-block w-90" alt="dk">
+            </div>
+            <div class="carousel-item">
+              <img src="img/jh1.jpg" class="custom-carousel-img mx-auto d-block w-90" alt="hannie">
+            </div>
+            <div class="carousel-item">
+              <img src="img/jun1.jpg" class="custom-carousel-img mx-auto d-block w-90" alt="jun">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </section gallery>
+        <br>
+      </div>
+      <!--Gallery End-->
+
+    <!---Footer--->
+    <div class="container">
+      <div class="d-flex flex-column align-items-center text-center h2 p-2 text-dark">
+        <div class="d-flex justify-content-center">
+          <a href="https://www.instagram.com/fbrnhae/profilecard/?igsh=NzdtMmswaTgxMDFy" class="btn btn-light m-2">
+            <i class="bi bi-instagram"></i>
+          </a>
+          <a href="mailto:111202315039@mhs.dinus.ac.id" class="btn btn-light m-2">
+            <i class="bi bi-envelope-at"></i>
+          </a>
+          <a href="https://pin.it/5O3SRVu1Q" class="btn btn-light m-2">
+            <i class="bi bi-pinterest"></i>
+          </a>
+          <a href="https://github.com/meganfbr" class="btn btn-light m-2">
+            <i class="bi bi-github"></i>
+          </a>
         </div>
-        </footer>
-      </section>
+        <div>
+          <h6>credit by @meganfbr</h6>
+        </div>
+      </div>
+    </div>
+    <!----Footer End-->
 
-    <script type="text/javascript">
-      window.setTimeout("tampilkanWaktu()", 1000);
-      function tampilkanWaktu() {
-        var waktu = new Date();
-        var h = waktu.getHours();
-        var m = waktu.getMinutes();
-        var s = waktu.getSeconds();
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Fungsi untuk menampilkan waktu
+        function tampilWaktu() {
+            const waktu = new Date();
+            const bulan = waktu.getMonth() + 1;
+            document.getElementById("tanggal").textContent = `${waktu.getDate()}/${bulan}/${waktu.getFullYear()}`;
+            document.getElementById("jam").textContent = `${waktu.getHours()}:${waktu.getMinutes()}:${waktu.getSeconds()}`;
+            setTimeout(tampilWaktu, 1000);
+        }
+        tampilWaktu();
 
-        setTimeout("tampilkan waktu()", 1000);
-        document.getElementById("tanggal").innerHTML = waktu.getDate() + "/" + (waktu.getMonth() + 1) + "/" + waktu.getFullYear();
-      }
-
-    const toggleButton = document.getElementById('toggle-dark-mode');
-    const body = document.body;
-
-    toggleButton.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            card.classList.toggle('dark-mode');
+        // Tema gelap
+        document.getElementById("darkMode").addEventListener("click", () => {
+            document.body.classList.add("dark-theme");
         });
-        toggleButton.classList.toggle('btn-secondary');
-        toggleButton.classList.toggle('btn-light');
-        toggleButton.innerText = body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
-    });
-      
+
+        //  Tema terang
+        document.getElementById("lightMode").addEventListener("click", () => {
+            document.body.classList.remove("dark-theme");
+        });
     </script>
-    
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
