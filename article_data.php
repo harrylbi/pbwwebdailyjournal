@@ -132,6 +132,12 @@ $total_records = $hasil1->num_rows;
         $start_number = ($hlm > $jumlah_number) ? $hlm - $jumlah_number : 1;
         $end_number = ($hlm < ($jumlah_page - $jumlah_number)) ? $hlm + $jumlah_number : $jumlah_page;
 
+        
+        $sql = "SELECT * FROM articles ORDER BY tanggal DESC LIMIT $limit_start, $limit";
+        $hasil = $conn->query($sql);
+        $sql = "SELECT * FROM articles ORDER BY tanggal DESC";
+        $hasil = $conn->query($sql);
+
         // Pagination Links
         if ($hlm == 1) {
             echo '<li class="page-item disabled"><a class="page-link" href="#">First</a></li>';
