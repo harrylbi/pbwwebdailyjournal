@@ -35,6 +35,7 @@ if (!isset($_SESSION['username'])) {
         }
         body {
             margin-bottom: 100px; /* Margin bottom by footer height */
+            background-color:  #BFECFF;
         }
         footer {
             position: absolute;
@@ -42,14 +43,33 @@ if (!isset($_SESSION['username'])) {
             width: 100%;
             height: 100px; /* Set the fixed height of the footer here */ 
         }
+
+        .navbar {
+            background-color: #063969; /* Warna navbar baru */
+            color: #fff;
+        }
+
+        .navbar-brand{
+            color: #fff;
+        }
+
+        .navbar-nav{
+            color: #fff;
+        }
+        
+        footer{
+            background-color: #063969;
+        }
+
+
     </style>
 </head>
 <body>
     <!-- nav begin -->
     
-<nav class="navbar navbar-expand-sm bg-body-tertiary sticky-top bg-primary-subtle">
+<nav class="navbar navbar-expand-sm  sticky-top">
     <div class="container">
-        <a class="navbar-brand" target="_blank" href=".">My Daily Journal</a>
+        <img src="img/logoconan.png" alt="">
         <button
         class="navbar-toggler"
         type="button"
@@ -58,12 +78,12 @@ if (!isset($_SESSION['username'])) {
         aria-controls="navbarSupportedContent"
         aria-expanded="false"
         aria-label="Toggle navigation"
-        >
+        
         <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-dark">
-            <li class="nav-item">
+        <div class="navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
+            <li class="nav-item ">
                 <a class="nav-link" href="admin.php?page=dashboard">Dashboard</a>
             </li>
             <li class="nav-item">
@@ -80,7 +100,7 @@ if (!isset($_SESSION['username'])) {
         </ul>
         </div>
     </div>
-</nav>>
+</nav>
 <section id="content" class="p-5">
     <div class="container">
         <?php
@@ -101,17 +121,9 @@ if (!isset($_SESSION['username'])) {
 <!-- content end -->
     <!-- content end -->
     <!-- footer begin -->
-    <footer class="text-center p-5 bg-primary-subtle">
+    <footer class="text-center pt-3 ">
     <div>
-        <a href="https://www.instagram.com/udinusofficial"
-        ><i class="bi bi-instagram h2 p-2 text-dark"></i
-        ></a>
-        <a href="https://twitter.com/udinusofficial"
-        ><i class="bi bi-twitter h2 p-2 text-dark"></i
-        ></a>
-        <a href="https://wa.me/+62812685577"
-        ><i class="bi bi-whatsapp h2 p-2 text-dark"></i
-        ></a>
+        <img src="img/logoconan.png" alt="">
     </div>
     <div>Harry LBI &copy; 2023</div>
     </footer>

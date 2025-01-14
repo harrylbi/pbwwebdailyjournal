@@ -1,42 +1,54 @@
 <?php
-// Memulai atau melanjutkan session yang ada
+//memulai session atau melanjutkan session yang sudah ada
 session_start();
 
-// Menyertakan kode dari file koneksi
+//menyertakan code dari file koneksi
 include "koneksi.php";
 
+//check jika sudah ada user yang login arahkan ke halaman admin
+if (isset($_SESSION['username'])) { 
+	header("location:admin.php"); 
+}
 
-
-// Memproses data jika form dikirim menggunakan metode POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $username = trim($_POST['user']);
-  $password = trim($_POST['pass']);
+  $username = $_POST['username'];
+  
+  //menggunakan fungsi enkripsi md5 supaya sama dengan password  yang tersimpan di database
+  $password = md5($_POST['password']);
 
-  $password = md5($_POST['pass']);
-
-  // Menggunakan prepared statement untuk menghindari SQL Injection
+	//prepared statement
   $stmt = $conn->prepare("SELECT username 
                           FROM user 
                           WHERE username=? AND password=?");
-  $stmt->bind_param("ss", $username, $password); // Binding parameter
-  $stmt->execute(); // Menjalankan statement
-  $hasil = $stmt->get_result(); // Menyimpan hasil
-  $row = $hasil->fetch_array(MYSQLI_ASSOC); // Mengambil baris hasil
 
-  // Memeriksa apakah user ditemukan
+	//parameter binding 
+  $stmt->bind_param("ss", $username, $password);//username string dan password string
+  
+  //database executes the statement
+  $stmt->execute();
+  
+  //menampung hasil eksekusi
+  $hasil = $stmt->get_result();
+  
+  //mengambil baris dari hasil sebagai array asosiatif
+  $row = $hasil->fetch_array(MYSQLI_ASSOC);
+
+  //check apakah ada baris hasil data user yang cocok
   if (!empty($row)) {
-    // Jika ditemukan, simpan username di session
+    //jika ada, simpan variable username pada session
     $_SESSION['username'] = $row['username'];
-    header("location:admin.php"); // Arahkan ke halaman admin
-    exit();
+
+    //mengalihkan ke halaman admin
+    header("location:admin.php");
   } else {
-    // Jika tidak ditemukan, arahkan kembali ke halaman login dengan pesan error
-    $error = "Username atau password salah!";
+	  //jika tidak ada (gagal), alihkan kembali ke halaman login
+    header("location:login.php");
   }
 
-  $stmt->close(); // Menutup statement
-  $conn->close(); // Menutup koneksi
-}
+	//menutup koneksi database
+  $stmt->close();
+  $conn->close();
+} else {
 ?>
 
 <!DOCTYPE html>
@@ -44,88 +56,181 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Login Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+    }
+
+    .left-section {
+      flex: 2;
+      background: url('your-image.jpg') no-repeat center center/cover;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      position: relative;
+      color: #ffffff;
+      background-color: #063969;
     }
-    .login-container {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      width: 300px;
-    }
-    .login-container h2 {
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
+
+    .left-section h1 {
+      font-size: 48px;
       font-weight: bold;
+      text-transform: uppercase;
+      border: 2px solid #fff;
+      padding: 10px 20px;
     }
+
+    .right-section {
+      flex: 1;
+      background-color: #7EC4EB;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .right-section h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .right-section p {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    form {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
     .form-group input {
       width: 100%;
       padding: 10px;
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
       border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
     }
-    .form-group input:focus {
-      border-color: #007BFF;
-      outline: none;
-    }
-    .btn {
+
+    .btn-login {
       width: 100%;
       padding: 10px;
       background-color: #007BFF;
       border: none;
       border-radius: 4px;
-      color: #fff;
+      color: white;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
+      box-sizing: border-box;
+      text-transform: uppercase;
     }
-    .btn:hover {
+
+    .btn-login:hover {
       background-color: #0056b3;
     }
-    .error {
-      color: red;
-      font-size: 0.875em;
-      margin-top: 10px;
+
+    .signup {
+      font-size: 14px;
+      margin-top: 15px;
       text-align: center;
     }
+
+    .signup a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    .signup a:hover {
+      text-decoration: underline;
+    }
+
+    /* Error message styling */
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+  .dinding {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: auto; /* Sesuaikan lebar gambar agar proporsional */
+      z-index: 1; /* Pastikan gambar berada di belakang elemen lain */
+  }
+
+  .logo-kanan{
+    width: 100px;;
+    height: 100px;
+  }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>Login</h2>
-    <?php
-    // Menampilkan pesan error jika ada
-    if (!empty($error)) {
-      echo "<div class='error'>$error</div>";
-    }
-    ?>
-    <form action="" method="post">
-      <div class="form-group">
-        <label for="user">Username</label>
-        <input type="text" id="user" name="user" required>
-      </div>
-      <div class="form-group">
-        <label for="pass">Password</label>
-        <input type="password" id="pass" name="pass" required>
-      </div>
-      <button class="btn" type="submit">Login</button>
-    </form>
+  <div class="container">
+    <!-- Left Section -->
+    <div class="left-section">
+      <img src="img/logo_kaitokid.png" alt="">
+      <img class="dinding" src="img/dinding.png" alt="">
+    </div>
+
+    <!-- Right Section -->
+    <div class="right-section">
+      <img class="logo-kanan" src="img/logo_kaitokid.png" alt="">
+      <h1>LOGIN</h1>
+      <?php
+        // Menampilkan pesan error jika ada
+        if (!empty($error)) {
+          echo "<div class='error'>$error</div>";
+        }
+      ?>
+      <p>Welcome back, please login to your account</p>
+
+      <!-- Display error message if available -->
+
+      <form action="#" method="POST">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn-login">Login</button>
+      </form>
+    </div>
   </div>
 </body>
 </html>
-
+<?php
+}
+?>
