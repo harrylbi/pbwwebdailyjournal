@@ -69,7 +69,10 @@ if (!isset($_SESSION['username'])) {
     
 <nav class="navbar navbar-expand-sm  sticky-top">
     <div class="container">
-        <img src="img/logoconan.png" alt="">
+        <a href="index.php">
+            <img src="img/logoconan.png" alt="Logo Conan">
+        </a>
+
         <button
         class="navbar-toggler"
         type="button"
